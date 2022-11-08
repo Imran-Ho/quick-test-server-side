@@ -14,15 +14,21 @@ app.use(express.json())
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.gof4ucb.mongodb.net/?retryWrites=true&w=majority`;
-console.log(uri)
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-function run(){
+async function run(){
     try{
+        const testsCollection = client.db('english').collection('tests');
+
+        app.get('/tests', async(req, res)=>{
+            const cursor = testsCollection.find({});
+            const services = await cursor.toArray();
+            res.send(services);
+        })
 
     }
     finally{
-        
+
     }
 
 }
