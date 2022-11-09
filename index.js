@@ -21,6 +21,12 @@ async function run(){
         const testsCollection = client.db('english').collection('tests');
         const reviewCollection = client.db('clients').collection('reviews')
 // get data
+        app.get('/limit', async(req, res)=>{
+            
+            const cursor = testsCollection.find({});
+            const services = await cursor.limit(3).toArray();
+            res.send(services);
+        })
         app.get('/tests', async(req, res)=>{
             
             const cursor = testsCollection.find({});
