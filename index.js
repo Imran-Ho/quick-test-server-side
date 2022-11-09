@@ -76,6 +76,31 @@ async function run(){
             const result = await reviewCollection.deleteOne(query)
             res.send(result);
         })
+// for update
+        // get data by Id
+        app.get('/review/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)}
+            const result = await reviewCollection.findOne(query)
+            res.send(result)
+        })
+
+        app.put('/review/:id', async(req, res) =>{
+            const id = req.params.id;
+            const filter = {_id: ObjectId(id)};
+            const items = req.body;
+            const option = {upsert: true};
+            const updateItems = {
+                $set: {
+                    name: items.name,
+                    photo: items.photo,
+                    text: items.text
+                }
+            }
+
+            const result = await reviewCollection.updateOne(filter, updateItems, option)
+            res.send(result)
+        })
 
     }
     finally{
